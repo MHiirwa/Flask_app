@@ -1,0 +1,7 @@
+Clone this repository
+Create a venv 
+Install the libs:
+    - numpy - pip install numpy 
+    - matplotlib - pip install matplotlib
+    - Tkinter - sudo apt install python3-kinter
+Run the code

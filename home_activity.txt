@@ -8,3 +8,68 @@ Takes query params:
 Responds with:
  - Formatted json  (all the above context including how long it took to run the analisis (Total time))
  - And a base 64 stream of the image  of the graph
+
+ {
+    "algo" : "bubble sort",
+    "items" : 1000,
+    "steps" : 10,
+    "start_time": 36458241,
+    "end_time" : 239759234,
+    "total_time_ms" : 3,
+    "time_complexity" : 'O(n)'
+    "path_to_graph" : 
+ }
+
+
+ # =======================================
+
+
+
+
+from sqlalchemy import create_engine
+from sqlalchemy import text
+# <PROTOCOL>://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE_NAME>
+engine = create_engine("mysql+pymysql://root:spatni@localhost:3306/hbnb_db")
+
+connection = engine.connect()
+result = connection.execute(text("SELECT * FROM State"))
+print(result.fetchall())
+
+1. Create a table to store algo analysis results for a request coming with the following payload
+
+
+```
+{
+    "algo" : "bubble sort",
+    "items" : 1000,
+    "steps" : 10,
+    "start_time": 36458241,
+    "end_time" : 239759234,
+    "total_time_ms" : 3,
+    "time_complexity" : 'O(n)'
+    "path_to_graph" : 
+ }
+
+```
+2. Create another end point called save_analysis (POST)
+
+curl -X POST http://localhost:8888/api/lead/convertToClient/$\(curl -s -H "Authorization: Bearer $(curl -s -X POST http://localhost:8888/api/login -H "Content-Type: application/json" -d '{
+    "algo" : "bubble sort",
+    "items" : 1000,
+    "steps" : 10,
+    "start_time": 36458241,
+    "end_time" : 239759234,
+    "total_time_ms" : 3,
+    "time_complexity" : 'O(n)'
+    "path_to_graph" : 
+ }' ))
+
+ 3. Save the above data to the table you have created on step one
+ 4. You return success result/status code along with the ID of the instance you just saved
+
+
+ ============
+ Class activity
+
+ 5. Create another end point called retrieve_analysis that takes the analysis ID we got on step 4
+ as a query parameter and gives us the json just like the analyze end point
